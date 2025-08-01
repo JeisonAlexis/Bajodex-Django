@@ -47,10 +47,21 @@ Proyecto desarrollado en Django que busca recrear una **Pokedex**, pero del prog
 </div>
 
 
-## ▶️ **Trailer**  
-<a href="https://www.youtube.com/watch?v=xxxxxxxxxx" target="_blank">
-  <img src="https://img.youtube.com/vi/xxxxxxxxxxx/hqdefault.jpg" width="950" height="700" alt="Ver video">
-</a>
+## ▶️ **Video**  
+<div align="center">
+  <a href="https://youtu.be/ztN-107Gn2U">
+    <img src="imgs/principal.PNG" alt="PROYECTO SMS GATEWAY" width="600">
+  </a>
+
+  <br>
+
+  <a href="https://youtu.be/ztN-107Gn2U">
+    <img src="https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white" alt="YouTube">
+  </a>
+
+</div>
+
+
 
 ## 🚀 Modo de uso
 
