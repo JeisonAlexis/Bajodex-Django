@@ -1,0 +1,228 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/styleBajodex1.css' %}" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+    <link
+      rel="icon"
+      href="{% static 'Icons/steel.svg' %}"
+      type="image/x-icon"
+    />
+    <title>Bajodex</title>
+  </head>
+  <body>
+    <div id="page">
+      <div class="header">
+        <h1>Bajodex</h1>
+        <div class="logo">
+          <img class="img" src="{% static 'Icons/steel.svg' %}" alt="logo" />
+        </div>
+        <div class="box">
+          <input
+            id="searchbar"
+            type="text"
+            name="search"
+            placeholder="Buscar"
+          />
+        </div>
+      </div>
+
+      <div class="select-wrapper">
+        <div id="regionSelect">
+          <span data-value="Todos" class="regionvalue selected">Todos</span>
+          <span data-value="Aire" class="regionvalue">
+            <img
+              src="{% static 'Icons/Aire.svg' %}"
+              class="region-icon"
+              alt="Aire"
+            />
+            Aire
+          </span>
+          <span data-value="Tierra" class="regionvalue">
+            <img
+              src="{% static 'Icons/Tierra.svg' %}"
+              class="region-icon"
+              alt="Tierra"
+            />
+            Tierra
+          </span>
+          <span data-value="Fuego" class="regionvalue">
+            <img
+              src="{% static 'Icons/Fuego.svg' %}"
+              class="region-icon"
+              alt="Fuego"
+            />
+            Fuego
+          </span>
+          <span data-value="Energia" class="regionvalue">
+            <img
+              src="{% static 'Icons/Energia.svg' %}"
+              class="region-icon"
+              alt="Energia"
+            />
+            Energia
+          </span>
+          <span data-value="Agua" class="regionvalue">
+            <img
+              src="{% static 'Icons/Agua.svg' %}"
+              class="region-icon"
+              alt="Agua"
+            />
+            Agua
+          </span>
+        </div>
+      </div>
+
+      <div class="bajo-container" id="bajo-container">
+  {% if babosas %}
+    {% for b in babosas %}
+      <div
+        class="cardContainer"
+        data-elemento="{{ b.getElemento }}"
+        data-nombre="{{ b.NombreBabosa }}"
+        data-codigo="{{ b.codigoBabosa }}"
+        data-tipo="{{ b.getTipo }}"
+      >
+        <div class="card {{ b.getElemento }}">
+          <!-- Lado frontal -->
+          <div class="front side">
+            <div class="image-container">
+              <img
+                class="bg-image"
+                src="{% static 'Icons/steel.svg' %}"
+                alt="Fondo"
+              />
+              {% if b.Protoforma %}
+              <img
+                class="main-image"
+                src="{{ b.Protoforma.url }}"
+                alt="{{ b.NombreBabosa }}"
+              />
+              {% else %}
+              <p class="mensaje">Sin imagen</p>
+              {% endif %}
+            </div>
+
+            <div class="number">#{{ b.codigoBabosa }}</div>
+            <div class="name">{{ b.NombreBabosa }}</div>
+
+            <div class="types">
+              <div class="bajo__type__bg {{ b.getTipo }}">
+                <div class="icon-circle">
+                  <img
+                    src="{% static 'Icons/'|add:b.getTipo|add:'.svg' %}"
+                    alt="{{ b.getTipo }}"
+                  />
+                </div>
+              </div>
+
+              <div class="bajo__type__bg {{ b.getElemento }}">
+                <div class="icon-circle">
+                  <img
+                    src="{% static 'Icons/'|add:b.getElemento|add:'.svg' %}"
+                    alt="{{ b.getElemento }}"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Lado trasero -->
+          <div class="back side">
+            <div class="image-container">
+              <img
+                class="bg-image"
+                src="{% static 'Icons/steel.svg' %}"
+                alt="Fondo"
+              />
+              {% if b.Transformacion %}
+              <img
+                class="main-image"
+                src="{{ b.Transformacion.url }}"
+                alt="{{ b.NombreBabosa }}"
+              />
+              {% else %}
+              <p class="mensaje">No se le ha visto transformarse :/</p>
+              {% endif %}
+            </div>
+            <p class="name">Tipo: {{ b.getTipo }}</p>
+            <div class="types">
+              <div class="bajo__type__bg {{ b.getTipo }}">
+                <div class="icon-circle">
+                  <img
+                    src="{% static 'Icons/'|add:b.getTipo|add:'.svg' %}"
+                    alt="{{ b.getTipo }}"
+                  />
+                </div>
+              </div>
+            </div>
+            <p class="name">Elemento: {{ b.getElemento }}</p>
+
+            <div class="types">
+              <div class="bajo__type__bg {{ b.getElemento }}">
+                <div class="icon-circle">
+                  <img
+                    src="{% static 'Icons/'|add:b.getElemento|add:'.svg' %}"
+                    alt="{{ b.getElemento }}"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  {% else %}
+    {% if request.GET.search or selected %}
+      <p class="mensaje">No se encontraron babosas que coincidan con tu búsqueda.</p>
+    {% else %}
+      <p class="mensaje">No hay babosas para mostrar.</p>
+{% endif %}
+  {% endif %}
+</div>
+
+
+    <div class="pagination">
+      <span class="step-links">
+        {% if page_obj.has_other_pages %}
+        <div class="pagination">
+          <span class="step-links">
+            {% if page_obj.has_previous %}
+            <a
+              href="?page=1{% if selected %}&elemento={{ selected }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}"
+              >&laquo; Primera</a
+            >
+            <a
+              href="?page={{ page_obj.previous_page_number }}{% if selected %}&elemento={{ selected }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}"
+              >Anterior</a
+            >
+            {% endif %}
+
+            <span class="current">
+              Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+            </span>
+
+            {% if page_obj.has_next %}
+            <a
+              href="?page={{ page_obj.next_page_number }}{% if selected %}&elemento={{ selected }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}"
+              >Siguiente</a
+            >
+            <a
+              href="?page={{ page_obj.paginator.num_pages }}{% if selected %}&elemento={{ selected }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}"
+              >Última</a
+            >
+            {% endif %}
+          </span>
+        </div>
+        {% endif %}
+      </span>
+    </div>
+
+    <script src="{% static 'js/scriptBajo.js' %}"></script>
+  </body>
+</html>
